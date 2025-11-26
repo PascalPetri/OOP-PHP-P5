@@ -1,0 +1,252 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+}
+
+.start-screen {
+    text-align: center;
+    padding: 40px;
+}
+
+.start-screen h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.start-screen form {
+    display: inline-block;
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.start-screen label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #333;
+}
+
+.start-screen select {
+    padding: 10px;
+    border: 2px solid #667eea;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 5px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+button.reset {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+}
+
+.current-player {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 5px solid #667eea;
+}
+
+.dice-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+}
+
+.special-message {
+    text-align: center;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.yahtzee {
+    background: linear-gradient(135deg, #ffd700, #ffed4e);
+    color: #333;
+    border: 3px solid #ffd700;
+}
+
+.four-kind {
+    background: linear-gradient(135deg, #4ECDC4, #44A08D);
+    color: white;
+}
+
+.full-house {
+    background: linear-gradient(135deg, #9B59B6, #8E44AD);
+    color: white;
+}
+
+.three-kind {
+    background: linear-gradient(135deg, #FF6B6B, #EE5A24);
+    color: white;
+}
+
+.two-pairs {
+    background: linear-gradient(135deg, #87CEEB, #6495ED);
+    color: white;
+}
+
+.one-pair {
+    background: linear-gradient(135deg, #90EE90, #32CD32);
+    color: white;
+}
+
+.actions {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.scoreboard {
+    margin: 30px 0;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.scoreboard h3 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-weight: bold;
+}
+
+tr.current {
+    background: #e3f2fd;
+    font-weight: bold;
+}
+
+td.total {
+    font-weight: bold;
+    color: #667eea;
+    font-size: 1.1em;
+}
+
+.game-finished {
+    text-align: center;
+    padding: 30px;
+    background: linear-gradient(135deg, #ffd700, #ffed4e);
+    border-radius: 15px;
+    margin-top: 20px;
+}
+
+.winner-message {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    display: inline-block;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.statistics {
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 10px;
+}
+
+.statistics ul {
+    list-style: none;
+    text-align: left;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.statistics li {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.statistics li:last-child {
+    border-bottom: none;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    h1 {
+        font-size: 2em;
+    }
+    
+    .dice-container {
+        gap: 5px;
+    }
+    
+    table {
+        font-size: 14px;
+    }
+    
+    th, td {
+        padding: 8px 4px;
+    }
+}
