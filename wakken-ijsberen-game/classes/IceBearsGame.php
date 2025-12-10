@@ -1,24 +1,36 @@
 <?php
+
+// gemaakt door: pascal
+// datum: 10-12-2025
+
 require_once 'DiceFactory.php';
 
+// Hoofd game class voor "Wakken en de IJsberen" spel
 class IceBearsGame
 {
-    private $diceCount;
-    private $dices = [];
+    // Private properties - alleen toegankelijk binnen deze class
+    
+    private $diceCount;  // Aantal dobbelstenen in huidige spel
+    private $dices = [];  // Array met dobbelsteen objecten
+    
+    // Huidige game state
     private $currentGame = [
-        'holes' => 0,
-        'bears' => 0,
-        'penguins' => 0,
-        'attempts' => 0,
-        'wrongAttempts' => 0,
-        'guessed' => false,
-        'solutionShown' => false
+        'holes' => 0,  // Aantal wakken
+        'bears' => 0,  // Aantal ijsberen
+        'penguins' => 0,  // Aantal pinguïns
+        'attempts' => 0,  // Totale aantal pogingen
+        'wrongAttempts' => 0,  // Aantal foute pogingen
+        'guessed' => false,  // Is het spel correct geraden?
+        'solutionShown' => false  // Is de oplossing getoond?
     ];
-    private $gamesHistory = [];
-    private $totalGames = 0;
-    private $totalCorrect = 0;
-    private $message = '';
-    private $messageType = '';
+    
+    private $gamesHistory = [];  // Geschiedenis van gespeelde spellen
+    private $totalGames = 0;  // Totaal aantal gespeelde spellen
+    private $totalCorrect = 0;  // Totaal aantal correct geraden spellen
+    private $message = '';  // Bericht voor gebruiker
+    private $messageType = '';  // Type bericht (success, error, info)
+    
+    // Hints voor wanneer speler fouten maakt
     private $hints = [
         "Ijsberen zitten alleen om een wak, zodat ze voedsel kunnen krijgen.",
         "Pinguïns zitten op de zuidpool als er op de noordpool een wak is.",
@@ -26,13 +38,15 @@ class IceBearsGame
         "Alleen oneven worpen hebben een wak in het midden."
     ];
 
+    // Constructor: wordt aangeroepen bij aanmaken van nieuw game object
     public function __construct()
     {
+        // Start sessie als deze nog niet gestart is
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
         
-        // Herstel sessie data
+        // Herstel sessie data vanuit $_SESSION
         if (isset($_SESSION['games_history'])) {
             $this->gamesHistory = $_SESSION['games_history'];
         }
@@ -85,6 +99,7 @@ class IceBearsGame
         }
     }
 
+    // Initialiseer een nieuw spel
     public function initializeGame($diceCount, $diceType)
     {
         $this->diceCount = $diceCount;
@@ -112,6 +127,7 @@ class IceBearsGame
         return true;
     }
 
+    // Gooi alle dobbelstenen opnieuw
     public function rollDice()
     {
         // Reset bij nieuwe worp
@@ -124,6 +140,7 @@ class IceBearsGame
         $bears = 0;
         $penguins = 0;
 
+        // Gooi elke dobbelsteen en bereken waarden
         foreach ($this->dices as $dice) {
             $dice->roll();
             if ($dice->hasHole()) {
@@ -133,6 +150,7 @@ class IceBearsGame
             }
         }
 
+        // Sla berekende waarden op
         $this->currentGame['holes'] = $holes;
         $this->currentGame['bears'] = $bears;
         $this->currentGame['penguins'] = $penguins;
@@ -144,6 +162,7 @@ class IceBearsGame
         return true;
     }
 
+    // Sla dobbelsteenwaarden op in sessie
     private function saveDiceValues()
     {
         if (!empty($this->dices)) {
@@ -155,6 +174,7 @@ class IceBearsGame
         }
     }
 
+    // Herstel dobbelsteenwaarden vanuit sessie
     private function restoreDiceValues()
     {
         if (isset($_SESSION['dice_values']) && !empty($_SESSION['dice_values'])) {
@@ -181,6 +201,7 @@ class IceBearsGame
         }
     }
 
+    // Verwerk een gok van de speler
     public function makeGuess($holesGuess, $bearsGuess, $penguinsGuess)
     {
         if ($this->currentGame['guessed'] || $this->currentGame['solutionShown']) {
@@ -195,6 +216,7 @@ class IceBearsGame
 
         $this->currentGame['attempts']++;
 
+        // Controleer of de gok correct is
         if ($holesGuess == $this->currentGame['holes'] &&
             $bearsGuess == $this->currentGame['bears'] &&
             $penguinsGuess == $this->currentGame['penguins']) {
@@ -225,6 +247,7 @@ class IceBearsGame
         }
     }
 
+    // Toon de oplossing
     public function showSolution()
     {
         $this->currentGame['solutionShown'] = true;
@@ -237,6 +260,7 @@ class IceBearsGame
         $this->saveGameState();
     }
 
+    // Sla huidige spel op in geschiedenis
     private function saveGameToHistory()
     {
         if (!empty($this->dices)) {
@@ -255,12 +279,14 @@ class IceBearsGame
             array_unshift($this->gamesHistory, $gameResult);
             $this->totalGames++;
 
+            // Beperk geschiedenis tot 10 spellen
             if (count($this->gamesHistory) > 10) {
                 array_pop($this->gamesHistory);
             }
         }
     }
 
+    // Sla complete game state op in sessie
     public function saveGameState()
     {
         $_SESSION['games_history'] = $this->gamesHistory;
@@ -273,12 +299,14 @@ class IceBearsGame
         }
     }
 
+    // Haal dobbelstenen op
     public function getDices()
     {
         $this->restoreDiceValues();
         return $this->dices;
     }
 
+    // Haal dobbelsteen waarden op
     public function getDiceValues()
     {
         $values = [];
@@ -289,6 +317,8 @@ class IceBearsGame
         return $values;
     }
 
+    // GETTER METHODS voor game state
+    
     public function getHoles() { return $this->currentGame['holes']; }
     public function getBears() { return $this->currentGame['bears']; }
     public function getPenguins() { return $this->currentGame['penguins']; }
@@ -301,20 +331,24 @@ class IceBearsGame
     public function getMessage() { return $this->message; }
     public function getMessageType() { return $this->messageType; }
     
+    // PRIVATE: Stel bericht in
     private function setMessage($message, $type = 'info') { 
         $this->message = $message; 
         $this->messageType = $type; 
     }
     
+    // Wis bericht
     public function clearMessage() { 
         $this->message = ''; 
         $this->messageType = ''; 
     }
     
+    // GETTERS voor statistieken
     public function getGamesHistory() { return $this->gamesHistory; }
     public function getTotalGames() { return $this->totalGames; }
     public function getTotalCorrect() { return $this->totalCorrect; }
     
+    // Reset hele spel
     public function resetAll() {
         $this->initializeGame($this->diceCount, !empty($this->dices) ? $this->dices[0]->getType() : 'cube');
     }

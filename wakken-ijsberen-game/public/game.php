@@ -1,4 +1,9 @@
 <?php
+
+// gemaakt door: pascal
+// datum: 10-12-2025
+
+
 // Zet error reporting aan
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -20,7 +25,7 @@ if (!isset($_SESSION['current_game'])) {
 // Game object maken
 $game = new IceBearsGame();
 
-// LAAD game state uit sessie in plaats van opnieuw initialiseren
+
 // LAAD game state uit sessie in plaats van opnieuw initialiseren
 $diceCount = $_SESSION['current_game']['dice_count'];
 $diceType = $_SESSION['current_game']['dice_type'];

@@ -1,4 +1,8 @@
 <?php
+
+// gemaakt door: pascal
+// datum: 10-12-2025
+
 session_start();
 
 // Includes naar ../classes/
